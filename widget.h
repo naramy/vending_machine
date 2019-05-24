@@ -14,7 +14,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-    int money{0};
+    int money{}, coin10{}, coin50{}, coin100{}, coin500{};
     void changeMoney(int diff);
     void checkState();
     void moneyState();
@@ -34,6 +34,9 @@ private slots:
     void on_pbTea_clicked();
 
     void on_pbCola_clicked();
+
+    void on_pbReset_clicked();
+
 private:
     Ui::Widget *ui;
 };

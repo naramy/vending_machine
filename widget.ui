@@ -26,10 +26,10 @@
   <widget class="QPushButton" name="pb10">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>80</y>
+     <x>30</x>
+     <y>100</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -39,10 +39,10 @@
   <widget class="QPushButton" name="pb50">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>120</y>
+     <x>30</x>
+     <y>140</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -52,10 +52,10 @@
   <widget class="QPushButton" name="pb100">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>160</y>
+     <x>30</x>
+     <y>180</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -68,10 +68,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>200</y>
+     <x>30</x>
+     <y>220</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -84,10 +84,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>260</x>
      <y>100</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -100,10 +100,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>260</x>
      <y>140</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -116,14 +116,70 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>260</x>
      <y>180</y>
      <width>88</width>
-     <height>27</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Cola</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbReset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>220</y>
+     <width>88</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcd10">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>100</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcd50">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>140</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcd100">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>180</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcd500">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>220</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
    </property>
   </widget>
  </widget>

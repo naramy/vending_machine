@@ -21,6 +21,24 @@ Widget::~Widget()
 void Widget::changeMoney(int diff) {
     money += diff;
     ui->lcdNumber->display(money);
+    if(money) {
+        coin10 = money % 500 % 100 % 50 / 10;
+        coin50 = money % 500 % 100 / 50;
+        coin100 = money % 500 / 100;
+        coin500 = money / 500;
+        ui->lcd10->display(coin10);
+        ui->lcd50->display(coin50);
+        ui->lcd100->display(coin100);
+        ui->lcd500->display(coin500);
+        ui->pbReset->setEnabled(true);
+    } else {
+        coin10 = coin50 = coin100 = coin500 = 0;
+        ui->lcd10->display(0);
+        ui->lcd50->display(0);
+        ui->lcd100->display(0);
+        ui->lcd500->display(0);
+        ui->pbReset->setEnabled(false);
+    }
     if(diff > 0)    moneyState();
     else            productState();
     /**  instead of moneyState() & productState()
@@ -159,4 +177,21 @@ void Widget::on_pbTea_clicked()
 void Widget::on_pbCola_clicked()
 {
     changeMoney(Cola_fee * -1);
+}
+
+void Widget::on_pbReset_clicked()
+{
+    QMessageBox::StandardButton msg;
+    msg = QMessageBox::question(this, "Change",
+                                tr("  Change Money States    \n"    //QObject::tr()
+                                   "        Coin   500   :   %1   \n"
+                                   "        Coin   100   :   %2   \n"
+                                   "        Coin     50   :   %3   \n"
+                                   "        Coin     10   :   %4   \n").arg(coin500)
+                                                                       .arg(coin100)
+                                                                       .arg(coin50)
+                                                                       .arg(coin10),
+                                QMessageBox::Yes|QMessageBox::No);
+    if(msg == QMessageBox::Yes)
+        changeMoney(money * -1);
 }
