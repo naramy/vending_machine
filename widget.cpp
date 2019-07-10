@@ -11,6 +11,11 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+
+    ui->pbCoffee->setEnabled(false);
+    ui->pbTea->setEnabled(false);
+    ui->pbCola->setEnabled(false);
+    ui->pbReset->setEnabled(false);
 }
 
 Widget::~Widget()
@@ -21,127 +26,10 @@ Widget::~Widget()
 void Widget::changeMoney(int diff) {
     money += diff;
     ui->lcdNumber->display(money);
-    if(money) {
-        coin10 = money % 500 % 100 % 50 / 10;
-        coin50 = money % 500 % 100 / 50;
-        coin100 = money % 500 / 100;
-        coin500 = money / 500;
-        ui->lcd10->display(coin10);
-        ui->lcd50->display(coin50);
-        ui->lcd100->display(coin100);
-        ui->lcd500->display(coin500);
-        ui->pbReset->setEnabled(true);
-    } else {
-        coin10 = coin50 = coin100 = coin500 = 0;
-        ui->lcd10->display(0);
-        ui->lcd50->display(0);
-        ui->lcd100->display(0);
-        ui->lcd500->display(0);
-        ui->pbReset->setEnabled(false);
-    }
-    if(diff > 0)    moneyState();
-    else            productState();
-    /**  instead of moneyState() & productState()
-     * checkState();
-     **/
-}
-
-void Widget::checkState() {
-    if(money / Cola_fee) {
-        ui->pbCoffee->setEnabled(true);
-        ui->pbTea->setEnabled(true);
-        ui->pbCola->setEnabled(true);
-    } else if(money / Tea_fee) {
-        ui->pbCoffee->setEnabled(true);
-        ui->pbTea->setEnabled(true);
-        ui->pbCola->setEnabled(false);
-    } else if(money / Coffee_fee) {
-        ui->pbCoffee->setEnabled(true);
-        ui->pbTea->setEnabled(false);
-        ui->pbCola->setEnabled(false);
-    } else {
-        ui->pbCoffee->setEnabled(false);
-        ui->pbTea->setEnabled(false);
-        ui->pbCola->setEnabled(false);
-    }
-    /*
-    switch(money/10) {
-        case 19: case 18: case 17: case 16: case 15:
-            ui->pbCoffee->setEnabled(true);
-            ui->pbTea->setEnabled(true);
-            ui->pbCola->setEnabled(false);
-            break;
-        case 14: case 13: case 12: case 11: case 10:
-            ui->pbCoffee->setEnabled(true);
-            ui->pbTea->setEnabled(false);
-            ui->pbCola->setEnabled(false);
-            break;
-        case 9: case 8: case 7: case 6: case 5:
-        case 4: case 3: case 2: case 1: case 0:
-            ui->pbCoffee->setEnabled(false);
-            ui->pbTea->setEnabled(false);
-            ui->pbCola->setEnabled(false);
-            break;
-        default:
-            ui->pbCoffee->setEnabled(true);
-            ui->pbTea->setEnabled(true);
-            ui->pbCola->setEnabled(true);
-    }
-    */
-}
-
-void Widget::moneyState() {
-    if(money / Cola_fee) {
-        ui->pbCoffee->setEnabled(true);
-        ui->pbTea->setEnabled(true);
-        ui->pbCola->setEnabled(true);
-    } else if(money / Tea_fee) {
-        ui->pbCoffee->setEnabled(true);
-        ui->pbTea->setEnabled(true);
-    } else if(money / Coffee_fee) {
-        ui->pbCoffee->setEnabled(true);
-    }
-    /*
-    switch(money/10) {
-        case 19: case 18: case 17: case 16: case 15:
-            ui->pbCoffee->setEnabled(true);
-            ui->pbTea->setEnabled(true);
-            break;
-        case 14: case 13: case 12: case 11: case 10:
-            ui->pbCoffee->setEnabled(true);
-            break;
-        case 9: case 8: case 7: case 6: case 5:
-        case 4: case 3: case 2: case 1: case 0:
-            break;
-        default:
-            ui->pbCoffee->setEnabled(true);
-            ui->pbTea->setEnabled(true);
-            ui->pbCola->setEnabled(true);
-    }
-    */
-}
-
-void Widget::productState() {
-    if(money < Coffee_fee)
-        ui->pbCoffee->setEnabled(false);
-    if(money < Tea_fee)
-        ui->pbTea->setEnabled(false);
-    if(money < Cola_fee)
-        ui->pbCola->setEnabled(false);
-    /*
-    switch(money/10) {
-        case 0: case 1: case 2: case 3: case 4:
-        case 5: case 6: case 7: case 8: case 9:
-            ui->pbCoffee->setEnabled(false);
-            [[clang::fallthrough]];
-        case 10: case 11: case 12: case 13: case 14:
-            ui->pbTea->setEnabled(false);
-            [[clang::fallthrough]];
-        case 15: case 16: case 17: case 18: case 19:
-            ui->pbCola->setEnabled(false);
-            break;
-    }
-    */
+    ui->pbCoffee->setEnabled(money >= Coffee_fee);
+    ui->pbTea->setEnabled(money >= Tea_fee);
+    ui->pbCola->setEnabled(money >= Cola_fee);
+    ui->pbReset->setEnabled(money > 0);
 }
 
 void Widget::on_pb10_clicked()
@@ -182,6 +70,57 @@ void Widget::on_pbCola_clicked()
 void Widget::on_pbReset_clicked()
 {
     QMessageBox::StandardButton msg;
+
+    //inline assembly code
+    #if defined (unix) && !defined (WIN32)
+    __asm__ ( "xor %%edx, %%edx\n\t"
+              "divl %%ebx" : "=a" (coin500), "=d" (coin100)
+                           : "a" (money), "b" (500));
+    __asm__ ( "xor %%edx, %%edx\n\t"
+              "divl %%ebx" : "=a" (coin100), "=d" (coin50)
+                           : "a" (coin100), "b" (100));
+    __asm__ ( "xor %%edx, %%edx\n\t"
+              "divl %%ebx" : "=a" (coin50), "=d" (coin10)
+                           : "a" (coin50), "b" (50));
+    __asm__ ( "xor %%edx, %%edx\n\t"
+              "divl %%ebx" : "=a" (coin10)
+                           : "a" (coin10), "b" (10));
+    #elif defined (WIN32) && !defined (unix)
+    __asm {
+        mov eax, money
+        mov ebx, 500
+        xor edx, edx
+        div ebx
+        mov coin500, eax
+        mov coin100, edx
+
+        mov eax, edx
+        mov ebx, 100
+        xor edx, edx
+        div ebx
+        mov coin100, eax
+        mov coin50, edx
+
+        mov eax, edx
+        mov ebx, 50
+        xor edx, edx
+        div ebx
+        mov coin50, eax
+        mov coin10, edx
+
+        mov eax, edx
+        mov ebx, 10
+        xor edx, edx
+        div ebx
+        mov coin10, eax
+    }
+    #else
+    coin500 = money / 500;
+    coin100 = money % 500 / 100;
+    coin50 = money % 500 % 100 / 50;
+    coin10 = money % 500 % 100 % 50 / 10;
+    #endif
+
     msg = QMessageBox::question(this, "Change",
                                 tr("  Change Money States    \n"    //QObject::tr()
                                    "        Coin   500   :   %1   \n"

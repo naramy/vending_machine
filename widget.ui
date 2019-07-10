@@ -80,7 +80,7 @@
   </widget>
   <widget class="QPushButton" name="pbCoffee">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -96,7 +96,7 @@
   </widget>
   <widget class="QPushButton" name="pbTea">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -112,7 +112,7 @@
   </widget>
   <widget class="QPushButton" name="pbCola">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -128,7 +128,7 @@
   </widget>
   <widget class="QPushButton" name="pbReset">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
